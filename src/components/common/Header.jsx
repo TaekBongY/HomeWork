@@ -10,6 +10,7 @@ const Header = styled.header`
   background: linear-gradient(135deg, #e0bbff, #ffc1cc);
   color: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-sizing: border-box;
 `;
 
 const Logo = styled.h1`
@@ -45,7 +46,7 @@ const PageHeader = () => {
       <Logo>Router</Logo>
         <Nav>
             <NavBtn to={'*'}>로그인</NavBtn>
-            <NavBtn to={"/user/new"}>회원가입</NavBtn>
+            <NavBtn to={"/user/new"}>등록하기</NavBtn>
         </Nav>
     </Header>
   )

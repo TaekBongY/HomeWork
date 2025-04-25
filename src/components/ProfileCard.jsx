@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import IsOnline from './isOnline'
+import { Link } from 'react-router-dom'
 
 const Card = styled.div`
     background: linear-gradient(135deg, #e0bbff, #ffc1cc);
@@ -20,14 +21,16 @@ const CardAge = styled.p`
     `
 
 
-const ProfileCard = ({name,age,isOnline}) => {
+const ProfileCard = ({id,name,age,isOnline}) => {
   return (
-    <Card>
-      <CardTitle>{name}</CardTitle>
-      <CardAge>나이 : {age}</CardAge>
-      <IsOnline type={isOnline} />
-    </Card>
-  )
-}
+    <Link to={`/user/${id}`} style={{ textDecoration: 'none' }}>
+      <Card>
+        <CardTitle>{name}</CardTitle>
+        <CardAge>나이 : {age}</CardAge>
+        <IsOnline type={isOnline} />
+      </Card>
+    </Link>
+  );
+};
 
 export default ProfileCard
