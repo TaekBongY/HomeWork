@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useNavigate} from 'react-router-dom'
 
 const SearchBar = styled.div`
   display: flex;
@@ -33,10 +34,11 @@ const SearchButton = styled.button`
 
 
 const SearchDiv = () => {
+  const navigate = useNavigate();
   return (
     <SearchBar>
       <SearchInput type='text' placeholder='검색' />
-      <SearchButton>검색</SearchButton>
+      <SearchButton onClick={()=> navigate('/*')}>검색</SearchButton>
     </SearchBar>
   )
 }

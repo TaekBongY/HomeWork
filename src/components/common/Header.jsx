@@ -43,9 +43,9 @@ const NavBtn = styled(Link)`
 const PageHeader = () => {
   return (
     <Header>
-      <Logo>Router</Logo>
+      <Link to={"/"}><Logo>Router</Logo></Link>
         <Nav>
-            <NavBtn to={'*'}>로그인</NavBtn>
+            <NavBtn to={"*"}>로그인</NavBtn>
             <NavBtn to={"/user/new"}>등록하기</NavBtn>
         </Nav>
     </Header>

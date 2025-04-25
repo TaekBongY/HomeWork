@@ -1,21 +1,18 @@
-import React from 'react';
+import React, { use } from 'react';
 import styled from 'styled-components';
 import ProfileCard from '../components/ProfileCard';
 import SearchDiv from '../components/common/Search';
+import useUsers from '../components/hooks/useUsers';
 
 const Container = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
-  gap: 20px;
-  `;
+  height: 100vh;
+`
 
 const UserList = () => {
-  const users = [
-    { id: 1, name: 'mojio', age: 28, isOnline: 'online' },
-    { id: 2,name: 'saki', age: 27, isOnline: 'offline' },
-    { id: 3,name: 'erie', age: 23, isOnline: '' },
-  ];
+  const {users} = useUsers();
 
   return (
     <>
