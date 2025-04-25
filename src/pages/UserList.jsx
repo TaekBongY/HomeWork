@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ProfileCard } from 'profilecard'
+import ProfileCard from '../components/ProfileCard';
 
 const Container = styled.div`
   display: flex;
