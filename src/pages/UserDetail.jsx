@@ -1,13 +1,12 @@
 import React, { use } from 'react'
 import styled from 'styled-components'
 import { useParams, useNavigate} from 'react-router-dom'
-import useUsers from '../components/hooks/useUsers'
+import useUsers from '../components/hook/useUsers'
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   height: 100vh;
   background: linear-gradient(135deg, #e0bbff, #ffc1cc);
   color: white;

@@ -1,12 +1,11 @@
 import React, { use } from 'react';
 import styled from 'styled-components';
-import ProfileCard from '../components/ProfileCard';
+import ProfileCard from '../components/Card/ProfileCard';
 import SearchDiv from '../components/common/Search';
-import useUsers from '../components/hooks/useUsers';
+import useUsers from '../components/hook/useUsers';
 
 const Container = styled.div`
   display: flex;
-  align-items: center;
   justify-content: center;
   height: 100vh;
 `

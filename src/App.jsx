@@ -1,14 +1,17 @@
-import './App.css'
-import { BrowserRouter, Route, Routes, Link } from 'react-router-dom'
-import UserList from './pages/UserList'
-import UserDetail from './pages/UserDetail'
-import UserRegistration from './pages/UserRegistration'
-import Error404 from './pages/Error404'
-import Layout from './components/common/Layout'
+import React, { useState } from 'react';
+import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import UserList from './pages/UserList';
+import UserDetail from './pages/UserDetail';
+import UserRegistration from './pages/UserRegistration';
+import Error404 from './pages/Error404';
+import Layout from './components/common/Layout';
+import UsersProvider from './components/context/UserContext';
+
 
 function App() {
   return (
-    <>
+    <UsersProvider>
     <BrowserRouter>
     <Routes>
       <Route element={<Layout />}>
@@ -19,7 +22,7 @@ function App() {
       <Route path='*' element={<Error404 />} />
     </Routes>
     </BrowserRouter>
-    </>
+    </UsersProvider>
   )
 }
 
