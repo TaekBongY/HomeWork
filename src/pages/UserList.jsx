@@ -1,4 +1,4 @@
-import React, { use } from 'react';
+
 import styled from 'styled-components';
 import ProfileCard from '../components/Card/ProfileCard';
 import SearchDiv from '../components/common/Search';
