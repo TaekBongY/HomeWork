@@ -10,17 +10,20 @@ import PrivateRoute from './components/routers/PrivateRoute';
 import { BrowserRouter } from 'react-router-dom';
 import MyPage from './pages/MyPage';
 import Login from './pages/Login';
+import UserEdit from './pages/UserEdit'
 
 function App() {
   return (
-    <BrowserRouter>
     <UsersProvider>
+    <BrowserRouter>
+    
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<UserList />} />
           <Route path="/login" element={<Login />} />
           <Route path="/user/:id" element={<UserDetail />} />
           <Route path="/user/new" element={<UserRegistration />} />
+          <Route path="/edit/:id" element={<UserEdit />} />
           <Route path="/mypage" element={
   <PrivateRoute>
     <MyPage />
@@ -29,8 +32,9 @@ function App() {
         </Route>
         <Route path="*" element={<Error404 />} />
       </Routes>
-    </UsersProvider>
+    
     </BrowserRouter>
+    </UsersProvider>
   );
 }
 

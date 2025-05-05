@@ -1,6 +1,48 @@
 {
-    "users": [
-      { "id": 1, "email": "test@example.com", "password": "1234", "name": "홍길동" }
-    ]
-  }
-  
+  "cards": [
+    {
+      "id": "1",
+      "title": "제목2",
+      "detail": "ㅇㅁㄹㅇㅁㄹ",
+      "image": "/mojio.png"
+    },
+    {
+      "id": "2",
+      "title": "제목2",
+      "detail": "여기는 내용2",
+      "image": "/test1.png"
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "name": "Mojio",
+      "age": "24",
+      "isOnline": "online",
+      "email": "test@example.com",
+      "password": "1234"
+    },
+    {
+      "id": "2",
+      "name": "Saki",
+      "isOnline": "offline",
+      "email": "test1@example.com",
+      "password": "1234"
+    },
+    {
+      "id": 1746464076010,
+      "name": "admin2",
+      "age": 24,
+      "email": "1234",
+      "isOnline": "online"
+    },
+    {
+      "id": 1746465346564,
+      "name": "admin3",
+      "age": 22,
+      "email": "admin3@example.com",
+      "password": "1234",
+      "isOnline": "offline"
+    }
+  ]
+}

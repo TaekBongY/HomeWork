@@ -1,7 +1,7 @@
+// ThemeToggle 제거됨
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom'
 import Header from './Header'
-import ThemeToggle from './ThemeMode/ThemeToggle'
 import { ThemeProvider, createGlobalStyle } from 'styled-components'
 import { lightTheme, darkTheme } from './ThemeMode/theme'
 
@@ -15,21 +15,17 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-
 function Layout() {
   const [isDarkMode, setIsDarkMode] = useState(true);
-
   const toggleTheme = () => setIsDarkMode(prev => !prev);
-  return (
 
+  return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <GlobalStyle />
-      <ThemeToggle isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-      <Header />
+      <Header isDarkMode={isDarkMode} toggleTheme={toggleTheme} /> {/* 전달 */}
       <Outlet />
     </ThemeProvider>
-
-  )
+  );
 }
 
-export default Layout
+export default Layout;

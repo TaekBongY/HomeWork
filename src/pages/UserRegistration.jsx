@@ -38,6 +38,7 @@ const UserRegistration = () => {
   const [age, setAge] = useState('');
   const [email, setEmail] = useState('');
   const [isOnline, setIsOnline] = useState(false);
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const { addUser, users } = useUsers();
 
@@ -67,6 +68,7 @@ const UserRegistration = () => {
       name: username,
       age: Number(age),
       email,
+      password,
       isOnline: isOnline ? 'online' : 'offline',
     };
 
@@ -76,6 +78,7 @@ const UserRegistration = () => {
     setUsername('');
     setAge('');
     setEmail('');
+    setPassword('');
     setIsOnline(false);
     navigate("/");
   };
@@ -97,6 +100,10 @@ const UserRegistration = () => {
           <DataText>
             <label htmlFor="email">이메일</label>
             <input type="email" id="email" name="email" onChange={(e) => setEmail(e.target.value)} required />
+          </DataText>
+          <DataText>
+            <label htmlFor="password">비밀번호</label>
+            <input type="password" id="password" name="password" onChange={(e) => setPassword(e.target.value)} required />
           </DataText>
           <DataStatus>
             <div>상태</div>
