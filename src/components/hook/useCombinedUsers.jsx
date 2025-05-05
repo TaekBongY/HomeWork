@@ -26,10 +26,10 @@ const useCombinedUsers = () => {
           const combined = cardsRes.data
             .map((card) => {
               const user = usersRes.data.find((u) => u.id === card.id);
-              if (!user) return null; // user가 없으면 제외
+              if (!user) return null; 
               return { ...card, ...user };
             })
-            .filter(Boolean); // null 제거
+            .filter(Boolean); 
 
           setCombinedUsers(combined);
         } else {

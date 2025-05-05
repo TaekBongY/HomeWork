@@ -1,7 +1,7 @@
 import React from 'react';
 
 const MyPage = () => {
-  // 로컬 스토리지나 Context에서 로그인한 사용자 정보 가져오기
+
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
 
@@ -14,7 +14,7 @@ const MyPage = () => {
       <h1>마이 페이지</h1>
       <p>{user.name}님, 환영합니다!</p>
       <p>이메일: {user.email}</p>
-      {/* 여기에 마이페이지 관련 내용을 추가할 수 있습니다. */}
+
     </div>
   );
 };

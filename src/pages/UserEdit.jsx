@@ -81,7 +81,7 @@ const UserEdit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addUser, updateUser } = useUserContext();
-  const { combinedUsers, loading } = useCombinedUsers(); // combinedUsers와 loading 상태 받아오기
+  const { combinedUsers, loading } = useCombinedUsers();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -92,12 +92,12 @@ const UserEdit = () => {
 
   useEffect(() => {
     if (id && combinedUsers.length > 0) {
-      console.log('id:', id); // 확인용
+      console.log('id:', id); 
       const user = combinedUsers.find(user => {
-        console.log('user.id:', user.id); // 확인용
-        return user.id === id;  // id 값은 문자열로 비교
+        console.log('user.id:', user.id); 
+        return user.id === id; 
       });
-      console.log('user:', user);  // 찾은 user 출력
+      console.log('user:', user);
   
       if (user) {
         setFormData({
@@ -130,7 +130,7 @@ const UserEdit = () => {
     }
   };
 
-  if (loading) return <div>로딩 중...</div>; // 로딩 중일 때 대기
+  if (loading) return <div>로딩 중...</div>;
 
   return (
     <Container>

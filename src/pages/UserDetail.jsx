@@ -84,21 +84,19 @@ const InfoBox = styled.div`
 const UserDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const {deleteUser } = useUserContext(); // useUserContext 사용
-  const { combinedUsers, loading, error } = useCombinedUsers(); // combinedUsers 그대로 사용
+  const {deleteUser } = useUserContext(); 
+  const { combinedUsers, loading, error } = useCombinedUsers(); 
 
-  // 로딩 상태 체크
+
   if (loading) return <div>Loading...</div>;
 
-  // 에러 상태 체크
   if (error) return <div>오류 발생: {error.message}</div>;
 
-  // combinedUsers 배열이 비어있는지 체크
+
   if (!combinedUsers || combinedUsers.length === 0) {
     return <div>사용자 데이터를 찾을 수 없습니다.</div>;
   }
 
-  // id로 해당 사용자 찾기
   const user = combinedUsers.find((user) => user.id == id);
 
   if (!user) {
@@ -107,7 +105,7 @@ const UserDetail = () => {
 
   const handleDelete = () => {
     if (window.confirm('정말 삭제하시겠습니까?')) {
-      deleteUser(Number(id)); // useUserContext의 deleteUser 호출
+      deleteUser(Number(id)); 
       navigate('/');
     }
   };

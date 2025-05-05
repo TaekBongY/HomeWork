@@ -22,7 +22,7 @@ function Layout() {
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <GlobalStyle />
-      <Header isDarkMode={isDarkMode} toggleTheme={toggleTheme} /> {/* 전달 */}
+      <Header isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
       <Outlet />
     </ThemeProvider>
   );
