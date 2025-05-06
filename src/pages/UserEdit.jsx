@@ -80,9 +80,9 @@ const ButtonGroup = styled.div`
 const UserEdit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addUser, updateUser } = useUserContext();
+  const { addCard, updateCard, loggedInUser } = useUserContext();
   const { combinedUsers, loading } = useCombinedUsers();
-
+  const isAdding = id === 'new';
   const [formData, setFormData] = useState({
     name: '',
     title: '',
@@ -91,14 +91,19 @@ const UserEdit = () => {
   });
 
   useEffect(() => {
-    if (id && combinedUsers.length > 0) {
-      console.log('id:', id); 
+    if (isAdding && loggedInUser) {
+      setFormData(prev => ({
+        ...prev,
+        name: loggedInUser.name || '' 
+      }));
+    } else if (id && id !== 'new' && combinedUsers.length > 0) { 
+      console.log('id:', id);
       const user = combinedUsers.find(user => {
-        console.log('user.id:', user.id); 
-        return user.id === id; 
+        console.log('user.dataid:', user.DataId);
+        return user.DataId == id;
       });
       console.log('user:', user);
-  
+
       if (user) {
         setFormData({
           name: user.name || '',
@@ -108,7 +113,7 @@ const UserEdit = () => {
         });
       }
     }
-  }, [id, combinedUsers]);
+  }, [id, combinedUsers, isAdding, loggedInUser]);
   
   
   
@@ -119,23 +124,47 @@ const UserEdit = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (id) {
-      await updateUser(Number(id), formData);
+    if (isAdding) { 
+      if (!loggedInUser) {
+        alert('로그인이 필요합니다.');
+        return;
+      }
+      const newUserEntry = {
+         id: String(loggedInUser.id),
+         DataId: String(Date.now()),
+         name: formData.name,
+         title: formData.title,
+         detail: formData.detail,
+         image: formData.image,
+      };
+      const addedEntry = await addCard(newUserEntry);
+      alert('게시글이 추가되었습니다!');
+      navigate(`/user/${addedEntry.DataId}`);
+    } else if (id && id !== 'new') { 
+      
+      const updatedEntry = {
+        id: String(loggedInUser.id),
+        DataId: formData.DataId,
+        name: formData.name,
+        title: formData.title,
+        detail: formData.detail,
+        image: formData.image,
+      };
+
+      await updateCard(id,updatedEntry);
       alert('수정되었습니다!');
       navigate(`/user/${id}`);
-    } else {
-      const newUser = await addUser(formData);
-      alert('게시글이 추가되었습니다!');
-      navigate(`/user/${newUser.id}`);
     }
   };
+
 
   if (loading) return <div>로딩 중...</div>;
 
   return (
     <Container>
       <CardBox onSubmit={handleSubmit}>
-        <Htitle>{id ? '게시글 정보 수정' : '게시글 추가'}</Htitle>
+        <Htitle>{isAdding ? '새 게시글 작성' : '게시글 정보 수정'}</Htitle>
+        <input type='hidden' value={formData.DataId} onChange={handleChange} placeholder={String(Date.now())}/>
         <Input
           name="title"
           value={formData.title}
@@ -147,6 +176,7 @@ const UserEdit = () => {
           value={formData.name}
           onChange={handleChange}
           placeholder="이름"
+          
         />
         <Input
           name="image"
@@ -158,11 +188,11 @@ const UserEdit = () => {
           name="detail"
           value={formData.detail}
           onChange={handleChange}
-          placeholder="설명"
+          placeholder="내용"
           rows={5}
         />
         <ButtonGroup>
-          <Btn type="submit">저장</Btn>
+          <Btn type="submit">{isAdding ? '작성 완료' : '저장'}</Btn>
           <Btn type="button" onClick={() => navigate(-1)}>취소</Btn>
         </ButtonGroup>
       </CardBox>

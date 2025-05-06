@@ -9,7 +9,7 @@ const useCombinedUsers = () => {
   const updateUser = (updatedUser) => {
     setCombinedUsers((prevUsers) =>
       prevUsers.map((user) =>
-        user.id === updatedUser.id ? { ...user, ...updatedUser } : user
+        user.DataId === updatedUser.DataId ? { ...user, ...updatedUser } : user
       )
     );
   };
@@ -26,10 +26,13 @@ const useCombinedUsers = () => {
           const combined = cardsRes.data
             .map((card) => {
               const user = usersRes.data.find((u) => u.id === card.id);
-              if (!user) return null; 
-              return { ...card, ...user };
+              if (!user) return null;
+              return {
+                ...user,
+                ...card,
+              };
             })
-            .filter(Boolean); 
+            .filter(Boolean);
 
           setCombinedUsers(combined);
         } else {

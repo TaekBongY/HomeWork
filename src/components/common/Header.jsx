@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useUserContext } from '../context/UserContext';
 import { FaHome } from "react-icons/fa";
 import ThemeToggle from './ThemeMode/ThemeToggle';
@@ -59,11 +59,11 @@ const LogoutBtn = styled.button`
 const PageHeader = ({ isDarkMode, toggleTheme }) => {
   const { loggedInUser, logout } = useUserContext();
 
-  const navigate = useNavigate();
+
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    location.href=("/");
   };
 
   return (
@@ -74,12 +74,12 @@ const PageHeader = ({ isDarkMode, toggleTheme }) => {
       <Nav>
         <ThemeToggle isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
         {loggedInUser ? (
-  <LogoutBtn >글쓰기</LogoutBtn>
+  <NavBtn to={"/edit/new"}>글쓰기</NavBtn>
 ) : (
   <NavBtn to={"/login"}>로그인</NavBtn>
 )}
         {loggedInUser ? (
-  <LogoutBtn onClick={handleLogout}>로그아웃</LogoutBtn>
+  <NavBtn onClick={handleLogout}>로그아웃</NavBtn>
 ) : (
   <NavBtn to={"/user/new"}>회원가입</NavBtn>
 )}

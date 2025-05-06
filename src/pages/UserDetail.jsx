@@ -1,9 +1,8 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useUserContext } from '../components/context/UserContext'; // useUserContext로 변경
-import useCombinedUsers from '../components/hook/useCombinedUsers'; // combinedUsers는 그대로 사용
+import { useUserContext } from '../components/context/UserContext';
+import useCombinedUsers from '../components/hook/useCombinedUsers';
 import { MdDriveFileRenameOutline } from "react-icons/md";
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -38,6 +37,7 @@ const ButtonGroup = styled.div`
   width: 100%;
   margin-top: auto;
 `;
+
 const CardBox = styled.div`
   background-color: rgba(255, 255, 255, 0.15);
   border: 2px solid #ffffff50;
@@ -72,24 +72,24 @@ const Dfont = styled.div`
 
 const IMG = styled.img`
   width: 100%;
-`
+`;
+
 const ImgDiv = styled.div`
-  max-width:50%;
-`
+  max-width: 50%;
+`;
+
 const InfoBox = styled.div`
   width: 100%;
   text-align: left;
 `;
 
 const UserDetail = () => {
-  const { id } = useParams();
+  const { dataId  } = useParams();
   const navigate = useNavigate();
-  const {deleteUser } = useUserContext(); 
-  const { combinedUsers, loading, error } = useCombinedUsers(); 
-
+  const { deleteUser } = useUserContext();
+  const { combinedUsers, loading, error } = useCombinedUsers();
 
   if (loading) return <div>Loading...</div>;
-
   if (error) return <div>오류 발생: {error.message}</div>;
 
 
@@ -97,15 +97,17 @@ const UserDetail = () => {
     return <div>사용자 데이터를 찾을 수 없습니다.</div>;
   }
 
-  const user = combinedUsers.find((user) => user.id == id);
+
+  const user = combinedUsers.find((item) => String(item.DataId) === String(dataId));
 
   if (!user) {
-    return <div>사용자를 찾을 수 없습니다.</div>;
+    return <div>사용자 또는 게시글 데이터를 찾을 수 없습니다.</div>;
   }
 
   const handleDelete = () => {
     if (window.confirm('정말 삭제하시겠습니까?')) {
-      deleteUser(Number(id)); 
+      deleteUser(Number(user.id));
+      window.alert('삭제하였습니다.');
       navigate('/');
     }
   };
@@ -120,11 +122,11 @@ const UserDetail = () => {
           <IMG src={user.image} alt=""/>
         </ImgDiv>
         <InfoBox>
-          <Pfont>{user.name}</Pfont>
+          <Pfont><MdDriveFileRenameOutline /> {user.name}</Pfont>
           <Dfont>{user.detail}</Dfont>
         </InfoBox>
         <ButtonGroup>
-          <Btn onClick={() => navigate(`/edit/${user.id}`)}>수정하기</Btn>
+          <Btn onClick={() => navigate(`/edit/${user.DataId}`)}>수정하기</Btn>
           <Btn onClick={() => navigate('/')}>목록으로</Btn>
           <Btn onClick={handleDelete}>삭제하기</Btn>
         </ButtonGroup>

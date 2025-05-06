@@ -38,9 +38,9 @@ const Detail = styled.div`
   color: #6a1b9a;
 `
 
-const ProfileCard = ({ id, name, image, title, detail,isOnline }) => {
+const ProfileCard = ({ DataId, name, image, title, detail,isOnline }) => {
   return (
-    <Link to={`/user/${id}`} style={{ textDecoration: 'none' }}>
+    <Link to={`/user/${DataId}`} style={{ textDecoration: 'none' }}>
       <Card>
         <CardTitle><IsOnline type={isOnline} />{name}</CardTitle>
         {image && <ProfileImage src={image} alt="" />}

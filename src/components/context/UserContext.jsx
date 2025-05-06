@@ -5,6 +5,14 @@ export const UsersContext = createContext();
 const UsersProvider = ({ children }) => {
   const [users, setUsersData] = useState([]);
   const [loggedInUser, setLoggedInUser] = useState(null);
+  const [cards, setCards] = useState([]);
+  
+  useEffect(() => {
+    fetch('http://localhost:3001/cards')
+      .then(res => res.json())
+      .then(data => setCards(data))
+      .catch(console.error);
+  }, []);
 
   useEffect(() => {
 
@@ -34,7 +42,7 @@ const UsersProvider = ({ children }) => {
 
 
   const deleteUser = async (id) => {
-    await fetch(`http://localhost:3001/users/${id}`, {
+    await fetch(`http://localhost:3001/cards/${id}`, {
       method: 'DELETE',
     });
     setUsersData(prev => prev.filter(user => user.id !== id));
@@ -50,6 +58,16 @@ const UsersProvider = ({ children }) => {
     const newUser = await res.json();
     setUsersData(prev => [...prev, newUser]);
     return newUser; 
+  };
+  const addCard = async (cards) => {
+    const res = await fetch('http://localhost:3001/cards', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(cards),
+    });
+    const newCard = await res.json();
+    setCards(prev => [...prev, newCard]);
+    return newCard; 
   };
 
   const updateUser = async (id, formData) => {
@@ -77,6 +95,39 @@ const UsersProvider = ({ children }) => {
       return null;
     }
   };
+  const updateCard = async (DataId, updatedData) => {
+    try {
+      const resGet = await fetch('http://localhost:3001/cards');
+      const allCards = await resGet.json();
+      const targetCard = allCards.find(card => card.DataId === DataId);
+      if (!targetCard) {
+        throw new Error("해당 카드(DataId)를 찾을 수 없습니다.");
+      }
+  
+      const res = await fetch(`http://localhost:3001/cards/${targetCard.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData),
+      });
+  
+      if (!res.ok) {
+        throw new Error(`서버 오류: ${res.status}`);
+      }
+  
+      const updatedCard = await res.json();
+      setCards(prev => prev.map(card =>
+        card.DataId === DataId ? updatedCard : card
+      ));
+      return updatedCard;
+    } catch (err) {
+      console.error('updateCard 오류:', err);
+      return null;
+    }
+  };
+  
+
   return (
     <UsersContext.Provider value={{
         users: users, 
@@ -87,7 +138,10 @@ const UsersProvider = ({ children }) => {
         getUser,
         deleteUser,
         addUser,
-        updateUser
+        updateUser,
+        addCard,
+        cards,
+        updateCard
     }}>
       {children}
     </UsersContext.Provider>
