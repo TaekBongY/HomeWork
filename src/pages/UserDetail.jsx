@@ -101,7 +101,8 @@ const UserDetail = () => {
   const user = combinedUsers.find((item) => String(item.DataId) === String(dataId));
 
   if (!user) {
-    return <div>사용자 또는 게시글 데이터를 찾을 수 없습니다.</div>;
+    return <div>사용자 또는 게시글 데이터를 찾을 수 없습니다.
+    사용자를 다시 찾아보죠</div>;
   }
 
   const handleDelete = () => {
