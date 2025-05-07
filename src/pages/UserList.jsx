@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import ProfileCard from '../components/Card/ProfileCard';
-import SearchDiv from '../components/common/Search';
 import useCombinedUsers from '../components/hook/useCombinedUsers';
 import ClipLoader from 'react-spinners/ClipLoader';  // import
 
@@ -8,7 +7,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  height: 100vh;
+  height: 90vh;
   overflow-x: auto;
   overflow-y: hidden;
   align-content: flex-start;
@@ -18,7 +17,7 @@ const Container = styled.div`
 `;
 
 const LoaderWrapper = styled.div`
-  height: 100vh;
+  height: 90vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,7 +38,6 @@ const UserList = () => {
 
   return (
     <>
-      <SearchDiv />
       <Container>
         {combinedUsers.map((user) => (
           <ProfileCard key={user.id} {...user} />

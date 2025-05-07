@@ -5,7 +5,7 @@ import * as yup from "yup";
 import axios from "axios";
 import { toast } from "react-toastify";
 import styled from "styled-components";
-import { ClipLoader } from "react-spinners"; // ClipLoader 스피너 가져오기
+import { ClipLoader } from "react-spinners";
 
 const Container = styled.div`
   display: flex;
@@ -24,10 +24,10 @@ export default function Login() {
     resolver: yupResolver(schema),
   });
 
-  const [loading, setLoading] = useState(false);  // 로딩 상태를 관리하기 위한 state
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
-    setLoading(true); // 폼 제출 시 로딩 시작
+    setLoading(true);
 
     try {
       const res = await axios.get(`http://localhost:3001/users`, {
@@ -43,7 +43,7 @@ export default function Login() {
       if (matchedUser) {
         localStorage.setItem("user", JSON.stringify(matchedUser));
         toast.success("로그인 성공!");
-        location.href = "/";
+        location.href = "/mypage";
       } else {
         toast.error("이메일 또는 비밀번호가 틀렸습니다");
       }
@@ -51,7 +51,7 @@ export default function Login() {
       toast.error("로그인 중 오류 발생");
       console.error(err);
     } finally {
-      setLoading(false);  // 로그인 작업이 끝난 후 로딩 종료
+      setLoading(false);
     }
   };
 

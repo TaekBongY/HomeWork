@@ -77,12 +77,19 @@ const ButtonGroup = styled.div`
   margin-top: auto;
 `;
 
+const PreviewImg = styled.img`
+  width: 150px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+`;
+
 const UserEdit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addCard, updateCard, loggedInUser } = useUserContext();
   const { combinedUsers, loading } = useCombinedUsers();
   const isAdding = id === 'new';
+
   const [formData, setFormData] = useState({
     name: '',
     title: '',
@@ -94,54 +101,59 @@ const UserEdit = () => {
     if (isAdding && loggedInUser) {
       setFormData(prev => ({
         ...prev,
-        name: loggedInUser.name || '' 
+        name: loggedInUser.name || ''
       }));
-    } else if (id && id !== 'new' && combinedUsers.length > 0) { 
-      console.log('id:', id);
-      const user = combinedUsers.find(user => {
-        console.log('user.dataid:', user.DataId);
-        return user.DataId == id;
-      });
-      console.log('user:', user);
-
+    } else if (id && id !== 'new' && combinedUsers.length > 0) {
+      const user = combinedUsers.find(user => user.DataId == id);
       if (user) {
         setFormData({
           name: user.name || '',
           title: user.title || '',
           detail: user.detail || '',
-          image: user.image || ''
+          image: user.image || '',
+          DataId: user.DataId
         });
       }
     }
   }, [id, combinedUsers, isAdding, loggedInUser]);
-  
-  
-  
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData(prev => ({
+        ...prev,
+        image: reader.result,
+      }));
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isAdding) { 
+    if (isAdding) {
       if (!loggedInUser) {
         alert('로그인이 필요합니다.');
         return;
       }
       const newUserEntry = {
-         id: String(loggedInUser.id),
-         DataId: String(Date.now()),
-         name: formData.name,
-         title: formData.title,
-         detail: formData.detail,
-         image: formData.image,
+        id: String(loggedInUser.id),
+        DataId: String(Date.now()),
+        name: formData.name,
+        title: formData.title,
+        detail: formData.detail,
+        image: formData.image,
       };
       const addedEntry = await addCard(newUserEntry);
       alert('게시글이 추가되었습니다!');
       navigate(`/user/${addedEntry.DataId}`);
-    } else if (id && id !== 'new') { 
-      
+    } else if (id && id !== 'new') {
       const updatedEntry = {
         id: String(loggedInUser.id),
         DataId: formData.DataId,
@@ -150,13 +162,11 @@ const UserEdit = () => {
         detail: formData.detail,
         image: formData.image,
       };
-
-      await updateCard(id,updatedEntry);
+      await updateCard(id, updatedEntry);
       alert('수정되었습니다!');
       navigate(`/user/${id}`);
     }
   };
-
 
   if (loading) return <div>로딩 중...</div>;
 
@@ -164,7 +174,14 @@ const UserEdit = () => {
     <Container>
       <CardBox onSubmit={handleSubmit}>
         <Htitle>{isAdding ? '새 게시글 작성' : '게시글 정보 수정'}</Htitle>
-        <input type='hidden' value={formData.DataId} onChange={handleChange} placeholder={String(Date.now())}/>
+
+        {formData.image && <PreviewImg src={formData.image} alt="미리보기" />}
+
+        <Input
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+        />
         <Input
           name="title"
           value={formData.title}
@@ -176,13 +193,6 @@ const UserEdit = () => {
           value={formData.name}
           onChange={handleChange}
           placeholder="이름"
-          
-        />
-        <Input
-          name="image"
-          value={formData.image}
-          onChange={handleChange}
-          placeholder="이미지 URL"
         />
         <TextArea
           name="detail"

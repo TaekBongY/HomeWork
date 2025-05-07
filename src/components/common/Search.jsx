@@ -5,9 +5,9 @@ import { useNavigate} from 'react-router-dom'
 const SearchBar = styled.div`
   display: flex;
   justify-content: center;
-  margin: 20px 0 0 0;
-  max-width: 100%;
+  margin: 10px;
   box-sizing: border-box;
+  flex :1;
 `;
 const SearchInput = styled.input`
   width: 89%;

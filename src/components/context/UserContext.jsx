@@ -6,7 +6,29 @@ const UsersProvider = ({ children }) => {
   const [users, setUsersData] = useState([]);
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [cards, setCards] = useState([]);
-  
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    const initialize = async () => {
+      try {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+          setLoggedInUser(JSON.parse(storedUser));
+        }
+
+        const res = await fetch('http://localhost:3001/users');
+        const data = await res.json();
+        setUsersData(data);
+      } catch (err) {
+        console.error('초기화 오류:', err);
+      } finally {
+        setIsInitialized(true);
+      }
+    };
+
+    initialize();
+  }, []);
+
   useEffect(() => {
     fetch('http://localhost:3001/cards')
       .then(res => res.json())
@@ -14,19 +36,8 @@ const UsersProvider = ({ children }) => {
       .catch(console.error);
   }, []);
 
-  useEffect(() => {
-
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setLoggedInUser(JSON.parse(storedUser));
-    }
-    fetch('http://localhost:3001/users')
-      .then(res => res.json())
-      .then(data => setUsersData(data))
-      .catch(err => console.error('Failed to fetch users:', err));
-  }, []);
-
   const login = (userData) => {
+    console.log("로그인 성공", userData);
     localStorage.setItem("user", JSON.stringify(userData));
     setLoggedInUser(userData);
   };
@@ -36,10 +47,7 @@ const UsersProvider = ({ children }) => {
     setLoggedInUser(null);
   };
 
-
-
   const getUser = (id) => users.find(user => user.id === id);
-
 
   const deleteUser = async (id) => {
     await fetch(`http://localhost:3001/cards/${id}`, {
@@ -47,7 +55,6 @@ const UsersProvider = ({ children }) => {
     });
     setUsersData(prev => prev.filter(user => user.id !== id));
   };
-
 
   const addUser = async (user) => {
     const res = await fetch('http://localhost:3001/users', {
@@ -59,6 +66,7 @@ const UsersProvider = ({ children }) => {
     setUsersData(prev => [...prev, newUser]);
     return newUser; 
   };
+
   const addCard = async (cards) => {
     const res = await fetch('http://localhost:3001/cards', {
       method: 'POST',
@@ -80,21 +88,20 @@ const UsersProvider = ({ children }) => {
         body: JSON.stringify({
           id, 
           ...formData, 
-          
         }),
-        
       });
-  
+
       if (!res.ok) {
         throw new Error(`서버 오류: ${res.status}`);
       }
-  
+
       return await res.json();
     } catch (err) {
       console.error('updateUser 오류:', err);
       return null;
     }
   };
+
   const updateCard = async (DataId, updatedData) => {
     try {
       const resGet = await fetch('http://localhost:3001/cards');
@@ -103,7 +110,7 @@ const UsersProvider = ({ children }) => {
       if (!targetCard) {
         throw new Error("해당 카드(DataId)를 찾을 수 없습니다.");
       }
-  
+
       const res = await fetch(`http://localhost:3001/cards/${targetCard.id}`, {
         method: 'PUT',
         headers: {
@@ -111,11 +118,11 @@ const UsersProvider = ({ children }) => {
         },
         body: JSON.stringify(updatedData),
       });
-  
+
       if (!res.ok) {
         throw new Error(`서버 오류: ${res.status}`);
       }
-  
+
       const updatedCard = await res.json();
       setCards(prev => prev.map(card =>
         card.DataId === DataId ? updatedCard : card
@@ -126,22 +133,22 @@ const UsersProvider = ({ children }) => {
       return null;
     }
   };
-  
 
   return (
     <UsersContext.Provider value={{
-        users: users, 
-        loggedInUser, 
-        login,
-        logout,
-        setUsers: setUsersData,
-        getUser,
-        deleteUser,
-        addUser,
-        updateUser,
-        addCard,
-        cards,
-        updateCard
+      users,
+      loggedInUser,
+      login,
+      logout,
+      setUsers: setUsersData,
+      getUser,
+      deleteUser,
+      addUser,
+      updateUser,
+      addCard,
+      cards,
+      updateCard,
+      isInitialized,
     }}>
       {children}
     </UsersContext.Provider>
