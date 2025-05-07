@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 import ProfileCard from '../components/Card/ProfileCard';
 import useCombinedUsers from '../components/hook/useCombinedUsers';
-import ClipLoader from 'react-spinners/ClipLoader';  // import
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const Container = styled.div`
   display: flex;
+  max-width:60vw;
   flex-direction: column;
   flex-wrap: wrap;
   height: 90vh;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: auto;
   align-content: flex-start;
   box-sizing: border-box;
   padding: 16px;
