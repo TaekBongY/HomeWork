@@ -35,7 +35,7 @@ const Error404 = () => {
       <ErrorImg src="/error.gif" alt="error"/>
     </div>
     <div>
-      <ErrorBtn onClick={()=> navigate('/')}>메인 페이지로 가기</ErrorBtn>
+      <ErrorBtn onClick={()=> navigate('/')}>메인 페이지로</ErrorBtn>
     </div>
     </>
   )
