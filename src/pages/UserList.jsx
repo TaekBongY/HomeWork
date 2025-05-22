@@ -5,13 +5,11 @@ import ClipLoader from 'react-spinners/ClipLoader';
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
   flex-wrap: wrap;
-  height: 90vh;
-  overflow-y: auto;
+  height: 100vh;
   align-content: flex-start;
   box-sizing: border-box;
-  padding: 16px;
+  padding-top: 10px;
   gap: 16px;
 `;
 
