@@ -5,7 +5,6 @@ import ClipLoader from 'react-spinners/ClipLoader';
 
 const Container = styled.div`
   display: flex;
-  max-width:60vw;
   flex-direction: column;
   flex-wrap: wrap;
   height: 90vh;
